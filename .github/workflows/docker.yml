@@ -16,5 +16,5 @@ jobs:
           docker build . -t frelund/searchapp:latest
       - name: publish
         run: |
-          docker login -u frelund -p ${{DOCKER_HUB_TOKEN}}
+          docker login -u frelund -p ${{ DOCKER_HUB_TOKEN }}
           docker push frelund/searchapp:latest
