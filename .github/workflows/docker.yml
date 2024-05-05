@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-      attestations: write
+      attestations: read write
       # 
     steps:
       - name: Checkout repository
