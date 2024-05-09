@@ -15,11 +15,10 @@ jobs:
     steps:
       - name: Create release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
           tag: ${{ github.ref_name }}
         run: |
           gh release create "$tag" \
               --repo="$GITHUB_REPOSITORY" \
               --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
-              --generate-notes \
-              --publish-release
+              --generate-notes
