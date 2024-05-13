@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  type: ClusterIP
+  selector:
+    app: users
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+  labels:
+    app: users-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      name: users
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users
+          image: ghcr.io/chatgut/userservice:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8001
+              protocol: TCP
+          env:
+            - name: DB_URL
+              value: jdbc:mysql://users-sql-service:3306/userService
+            - name: DB_USER
+              value: developer
+            - name: DB_PASSWORD
+              value: password
+      restartPolicy: Always
+      
