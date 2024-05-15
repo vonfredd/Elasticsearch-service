@@ -35,5 +35,12 @@ spec:
           ports:
             - containerPort: 9200
               protocol: TCP
+          volumeMounts:
+            - name: elastic-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: elastic-persistent-storage
+          persistentVolumeClaim:
+            claimName: elastic-db-claim
       restartPolicy: Always
       
