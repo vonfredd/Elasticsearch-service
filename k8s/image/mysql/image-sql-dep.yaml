@@ -42,7 +42,7 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               value: password
             - name: MYSQL_DATABASE
-              value: userService
+              value: imageservice
             - name: MYSQL_USER
               value: developer
             - name: MYSQL_PASSWORD
@@ -53,6 +53,6 @@ spec:
       volumes:
         - name: mysql-data
           persistentVolumeClaim:
-            claimName: mysql-dbImage
+            claimName: mysql-dbimage-pvc
       restartPolicy: Always
       

@@ -11,7 +11,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "run/desktop/mnt/host/c/mnt/"
+    path: /run/desktop/mnt/host/c/mnt/authdata/
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

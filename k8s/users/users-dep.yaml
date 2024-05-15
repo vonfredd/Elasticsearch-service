@@ -39,7 +39,7 @@ spec:
             - name: DB_URL
               value: jdbc:mysql://users-sql-service:3306/userService
             - name: DB_USER
-              value: developer
+              value: root
             - name: DB_PASSWORD
               value: password
       restartPolicy: Always

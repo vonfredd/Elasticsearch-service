@@ -9,10 +9,17 @@ spec:
   rules:
     - http:
         paths:
-          - path: /
+          - path: /aaa
             pathType: Prefix
             backend:
               service:
                 name: frontend-service
                 port:
                   number: 8009
+          - path: /auth/(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 8080

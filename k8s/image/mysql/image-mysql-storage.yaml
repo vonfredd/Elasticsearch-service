@@ -11,12 +11,12 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "run/desktop/mnt/host/c/mnt/"
+    path: /run/desktop/mnt/host/c/mnt/imgdata/
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-dbimage
+  name: mysql-dbimage-pvc
 spec:
   storageClassName: manual
   accessModes:

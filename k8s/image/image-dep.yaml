@@ -5,7 +5,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: users
+    app: image
   ports:
     - protocol: TCP
       port: 8002
@@ -14,32 +14,32 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: users-deployment
+  name: image-deployment
   labels:
-    app: users-deployment
+    app: image-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: users
+      app: image
   template:
     metadata:
-      name: users
+      name: image
       labels:
-        app: users
+        app: image
     spec:
       containers:
-        - name: users
-          image: ghcr.io/chatgut/userservice:1.0
+        - name: image
+          image: ghcr.io/chatgut/imageservicebov:sha-925024f
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8002
               protocol: TCP
           env:
             - name: DB_URL
-              value: jdbc:mysql://image-sql-service:3306/imageservice-mysql
+              value: image-sql-service:3306/imageservice
             - name: DB_USER
-              value: developer
+              value: root
             - name: DB_PASSWORD
               value: password
       restartPolicy: Always

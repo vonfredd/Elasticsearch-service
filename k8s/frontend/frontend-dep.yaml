@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: front:1337
+          image: front:1338
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
