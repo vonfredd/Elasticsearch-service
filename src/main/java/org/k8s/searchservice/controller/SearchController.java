@@ -3,6 +3,7 @@ package org.k8s.searchservice.controller;
 import org.k8s.searchservice.config.Properties;
 import org.k8s.searchservice.entity.UserDTO;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.elasticsearch.NoSuchIndexException;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -47,28 +48,36 @@ public class SearchController {
     }
 
     @GetMapping("/search")
-    public List<UserDTO> searchAsYouType(@RequestParam String query) {
-        Criteria criteria = new Criteria("name")
-                .startsWith(query);
-        Query criteriaQuery = new CriteriaQuery(criteria);
-        SearchHits<UserDTO> searchHits = elasticsearchOperations.search(criteriaQuery, UserDTO.class);
+    public ResponseEntity<List<UserDTO>> searchAsYouType(@RequestParam String query) {
+        try {
+            Criteria criteria = new Criteria("name")
+                    .startsWith(query);
+            Query criteriaQuery = new CriteriaQuery(criteria);
+            SearchHits<UserDTO> searchHits = elasticsearchOperations.search(criteriaQuery, UserDTO.class);
 
-        return searchHits.getSearchHits()
-                .stream()
-                .map(SearchHit::getContent)
-                .toList();
+            return ResponseEntity.ok(searchHits.getSearchHits()
+                    .stream()
+                    .map(SearchHit::getContent)
+                    .toList());
+        }catch (NoSuchIndexException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/search/contains")
-    public List<UserDTO> searchContainsAsYouType(@RequestParam String query) {
-        Criteria criteria = new Criteria("name")
-                .contains(query);
-        Query criteriaQuery = new CriteriaQuery(criteria);
-        SearchHits<UserDTO> searchHits = elasticsearchOperations.search(criteriaQuery, UserDTO.class);
+    public ResponseEntity<List<UserDTO>> searchContainsAsYouType(@RequestParam String query) {
+        try {
+            Criteria criteria = new Criteria("name")
+                    .contains(query);
+            Query criteriaQuery = new CriteriaQuery(criteria);
+            SearchHits<UserDTO> searchHits = elasticsearchOperations.search(criteriaQuery, UserDTO.class);
 
-        return searchHits.getSearchHits()
-                .stream()
-                .map(SearchHit::getContent)
-                .toList();
+            return ResponseEntity.ok(searchHits.getSearchHits()
+                    .stream()
+                    .map(SearchHit::getContent)
+                    .toList());
+        }catch (NoSuchIndexException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 }
