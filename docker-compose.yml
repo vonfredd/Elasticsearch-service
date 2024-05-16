@@ -12,9 +12,11 @@ services:
       - discovery.type=single-node
 
   search-service:
-    image: search:2
+    image: search:1
     ports:
       - "8006:8080"
+    depends_on:
+      - elasticsearch
     environment:
       GET_USERS: http://usersapp:8002/users/all
       ELASTICSEARCH_URI: http://elasticsearch:9200
@@ -45,6 +47,15 @@ services:
     volumes:
       - dbUsers:/var/lib/mysql
 
+  rabbitMQ:
+    image: 'rabbitmq:3-management'
+    container_name: QueueRabbitMQ
+    volumes:
+      - dbData:/var/lib/rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
 volumes:
   elastic_data:
   dbUsers:
+  dbData:
