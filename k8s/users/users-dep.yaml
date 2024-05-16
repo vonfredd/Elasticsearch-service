@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: users
-          image: ghcr.io/chatgut/userservice:1.0
+          image: newuserservice:1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8001
@@ -42,5 +42,7 @@ spec:
               value: root
             - name: DB_PASSWORD
               value: password
+            - name: RABBIT_HOST
+              value: rabbit-service
       restartPolicy: Always
       
