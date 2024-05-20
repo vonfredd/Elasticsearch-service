@@ -40,7 +40,7 @@ public class SearchController {
                     .body(new ParameterizedTypeReference<List<UserDTO>>() {
                     }));
             elasticsearchOperations.save(usersList);
-            return ResponseEntity.ok("Successfully updated");
+            return ResponseEntity.ok().build();
         }catch (NullPointerException e){
             return ResponseEntity.notFound().build();
         }
