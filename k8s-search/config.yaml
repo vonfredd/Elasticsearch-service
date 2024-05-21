@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  custom.users.uri: "http://user-service:8001/users/all"
+  elasticsearch.cluster.uri: "http://elasticsearch-service:9200"
