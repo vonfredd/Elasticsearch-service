@@ -1,3 +1,5 @@
+## This was made as a school project to learn more about microservices, kubernetes and docker.
+
 # Elasticsearch-service
 
 #### This service runs on ``port 8006`` and is used with elasticsearch.
