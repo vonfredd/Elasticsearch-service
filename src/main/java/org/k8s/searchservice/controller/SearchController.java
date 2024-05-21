@@ -11,16 +11,19 @@ import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @RestController
 @CrossOrigin
 public class SearchController {
 
+    private static final Logger logger = Logger.getLogger(SearchController.class.getName());
     private final RestClient restClient;
     private final ElasticsearchOperations elasticsearchOperations;
     private final Properties properties;
@@ -31,8 +34,9 @@ public class SearchController {
         this.properties = properties;
     }
 
+    @Scheduled(fixedRate = 3000)
     @GetMapping("/newuser")
-    public ResponseEntity<String> updatedb(){
+    public void updatedb(){
         try {
             var usersList = Objects.requireNonNull(restClient
                     .get()
@@ -41,9 +45,9 @@ public class SearchController {
                     .body(new ParameterizedTypeReference<List<UserDTO>>() {
                     }));
             elasticsearchOperations.save(usersList);
-            return ResponseEntity.ok().build();
+            logger.info("Updated users");
         }catch (NullPointerException e){
-            return ResponseEntity.notFound().build();
+            logger.warning(e.getMessage());
         }
     }
 
